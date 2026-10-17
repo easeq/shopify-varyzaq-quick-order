@@ -1,0 +1,20 @@
+services:
+  migrate:
+    build: { context: ., dockerfile: Dockerfile }
+    env_file: [.env.variant-quick-order.production]
+    command: ["./node_modules/.bin/prisma", "migrate", "deploy"]
+    restart: "no"
+  app:
+    build: { context: ., dockerfile: Dockerfile }
+    restart: unless-stopped
+    env_file: [.env.variant-quick-order.production]
+    command: ["./node_modules/.bin/react-router-serve", "build/server/index.js"]
+    ports: ["3000:3000"]
+    depends_on: { migrate: { condition: service_completed_successfully } }
+  worker:
+    build: { context: ., dockerfile: Dockerfile }
+    restart: unless-stopped
+    env_file: [.env.variant-quick-order.production]
+    environment: { WORKER_ROLES: all }
+    command: ["node", "dist/worker.js"]
+    depends_on: { migrate: { condition: service_completed_successfully } }

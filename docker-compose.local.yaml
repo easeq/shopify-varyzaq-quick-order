@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: variant_quick_order_development
+    ports: ["5432:5432"]
+    volumes: ["variant-quick-order-postgres:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d variant_quick_order_development"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  redis:
+    image: redis:8-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction"]
+    ports: ["6379:6379"]
+    volumes: ["variant-quick-order-redis:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker.dev
+    restart: unless-stopped
+    env_file: ["${LOCAL_ENV_FILE:-.env.variant-quick-order.development}"]
+    environment:
+      NODE_ENV: development
+      APP_ENV: development
+      WORKER_ROLES: all
+      REDIS_URL: redis://redis:6379
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/variant_quick_order_development
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+volumes:
+  variant-quick-order-postgres:
+  variant-quick-order-redis:

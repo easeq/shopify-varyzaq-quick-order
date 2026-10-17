@@ -1,0 +1,13 @@
+services:
+  subscription-worker:
+    build: { context: ., dockerfile: Dockerfile }
+    restart: unless-stopped
+    env_file: [.env.variant-quick-order.production]
+    environment: { WORKER_ROLES: subscriptions }
+    command: ["node", "dist/worker.js"]
+  webhook-worker:
+    build: { context: ., dockerfile: Dockerfile }
+    restart: unless-stopped
+    env_file: [.env.variant-quick-order.production]
+    environment: { WORKER_ROLES: webhooks }
+    command: ["node", "dist/worker.js"]

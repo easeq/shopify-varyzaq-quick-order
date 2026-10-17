@@ -1,0 +1,27 @@
+# One stack per Shopify app identity/environment. Postgres and Redis can be shared
+# infrastructure, while DATABASE_URL and queue namespaces remain isolated per env.
+services:
+  migrate:
+    image: ${APP_IMAGE}
+    restart: "no"
+    env_file: [.env]
+    command: ["./node_modules/.bin/prisma", "migrate", "deploy"]
+    networks: [shopify-platform]
+  app:
+    image: ${APP_IMAGE}
+    restart: unless-stopped
+    env_file: [.env]
+    command: ["./node_modules/.bin/react-router-serve", "build/server/index.js"]
+    depends_on: { migrate: { condition: service_completed_successfully } }
+    networks: [dokploy-network, shopify-platform]
+  worker:
+    image: ${APP_IMAGE}
+    restart: unless-stopped
+    env_file: [.env]
+    environment: { WORKER_ROLES: all }
+    command: ["node", "dist/worker.js"]
+    depends_on: { migrate: { condition: service_completed_successfully } }
+    networks: [shopify-platform]
+networks:
+  dokploy-network: { external: true }
+  shopify-platform: { external: true }

@@ -1,18 +1,39 @@
-FROM node:22-alpine
-RUN apk add --no-cache openssl
+FROM node:24-alpine AS builder
 
-EXPOSE 3000
+RUN apk add --no-cache openssl
 
 WORKDIR /app
 
-ENV NODE_ENV=production
+RUN corepack enable
+RUN corepack prepare pnpm@12.3.4 --activate
 
-COPY package.json package-lock.json* ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages ./packages
+COPY extensions ./extensions
 
-RUN npm ci --omit=dev && npm cache clean --force
+RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-RUN npm run build
+RUN mkdir -p public
+RUN pnpm prisma generate
+RUN pnpm build
 
-CMD ["npm", "run", "docker-start"]
+FROM node:24-alpine AS runtime
+
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/build ./build
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/packages ./packages
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3000
+
+CMD ["./node_modules/.bin/react-router-serve", "build/server/index.js"]

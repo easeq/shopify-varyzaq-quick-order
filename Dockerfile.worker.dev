@@ -1,0 +1,26 @@
+FROM node:24-alpine
+
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+# pnpm is needed only while building this local development image. The worker
+# itself is started directly with Node so Corepack/pnpm is never invoked at runtime.
+RUN corepack enable \
+  && corepack prepare pnpm@12.3.4 --activate
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+COPY packages ./packages
+COPY extensions ./extensions
+
+RUN pnpm install --frozen-lockfile
+
+COPY prisma ./prisma
+RUN pnpm exec prisma generate
+
+COPY worker.ts ./worker.ts
+COPY app ./app
+
+ENV NODE_ENV=development
+
+CMD ["node", "--watch", "--watch-preserve-output", "--import", "tsx", "worker.ts"]

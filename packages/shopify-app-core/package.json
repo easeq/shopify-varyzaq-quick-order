@@ -1,0 +1,30 @@
+{
+  "name": "@app-platform/shopify-core",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./billing/manager": "./src/billing/manager.ts",
+    "./billing/partner-api": "./src/billing/partner-api.ts",
+    "./billing/plans": "./src/billing/plans.ts",
+    "./billing/pricing-url": "./src/billing/pricing-url.ts",
+    "./billing/staleness": "./src/billing/staleness.ts",
+    "./privacy/gdpr": "./src/privacy/gdpr.ts",
+    "./queues/factory": "./src/queues/factory.ts",
+    "./queues/redis": "./src/queues/redis.ts",
+    "./queues/roles": "./src/queues/roles.ts",
+    "./queues/scheduler": "./src/queues/scheduler.ts",
+    "./runtime/database": "./src/runtime/database.ts",
+    "./runtime/environment": "./src/runtime/environment.ts",
+    "./shopify/custom-data": "./src/shopify/custom-data.ts",
+    "./shopify/metafield-definitions": "./src/shopify/metafield-definitions.ts"
+  },
+  "dependencies": {
+    "bullmq": "^5.58.0",
+    "ioredis": "^5.7.0"
+  }
+}
