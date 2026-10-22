@@ -1,3 +1,200 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Variant Quick Order — CSV Pro</title><style>
-*{box-sizing:border-box}html,body{margin:0;width:1600px;height:900px;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#f6f1e7;color:#1e2521}.frame{height:100%;padding:84px 96px;display:grid;grid-template-columns:1fr 520px;gap:78px;align-items:center}.workspace{background:#fff;border:1px solid #d7d0c3;border-radius:24px;padding:30px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.title{font-size:28px;font-weight:800}.badge{font-size:14px;font-weight:800;background:#15202b;color:#fff;padding:8px 12px;border-radius:999px}.paste{border:1px solid #b9b0a1;border-radius:14px;padding:20px}.paste h3{font-size:18px;margin:0 0 12px}.code{height:180px;background:#f7f5f0;border:1px solid #d6d0c5;border-radius:10px;padding:18px;font:18px/1.8 ui-monospace,SFMono-Regular,Menlo,monospace;color:#48514b}.apply{display:inline-block;margin-top:14px;background:#15202b;color:#fff;padding:12px 18px;border-radius:9px;font-weight:750}.arrow{text-align:center;font-size:38px;color:#47a27e;padding:12px}.rows{border:1px solid #d6d0c5;border-radius:12px;overflow:hidden}.row{display:grid;grid-template-columns:1.2fr .9fr .65fr;min-height:59px;align-items:center;padding:0 16px;border-bottom:1px solid #ddd6ca}.row:last-child{border-bottom:0}.head{background:#faf8f4;text-transform:uppercase;letter-spacing:.06em;color:#7a786f;font-size:12px;font-weight:800}.qty{display:inline-grid;place-items:center;width:70px;height:38px;border:1px solid #6f9485;border-radius:8px;background:#e3f1eb;font-weight:800}.copy .kicker{font-size:16px;text-transform:uppercase;letter-spacing:.09em;font-weight:800;color:#49826d}.copy h1{font-size:68px;line-height:1.02;letter-spacing:-.055em;margin:18px 0 24px}.copy p{font-size:24px;line-height:1.5;color:#5d655f;margin:0}.features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px}.feature{background:#fff;border:1px solid #d7d0c3;border-radius:11px;padding:14px 15px;font-size:15px;font-weight:700}
-</style></head><body><main class="frame"><section class="workspace"><div class="top"><span class="title">Paste SKU and quantity</span><span class="badge">PRO</span></div><div class="paste"><h3>Spreadsheet rows</h3><div class="code">TEE-BLK-S, 12<br>TEE-BLK-M, 24<br>TEE-OLV-M, 12</div><span class="apply">Apply quantities</span></div><div class="arrow">↓</div><div class="rows"><div class="row head"><span>SKU</span><span>Variant</span><span>Quantity</span></div><div class="row"><strong>TEE-BLK-S</strong><span>Black / S</span><span class="qty">12</span></div><div class="row"><strong>TEE-BLK-M</strong><span>Black / M</span><span class="qty">24</span></div><div class="row"><strong>TEE-OLV-M</strong><span>Olive / M</span><span class="qty">12</span></div></div></section><section class="copy"><span class="kicker">Pro workflow</span><h1>Paste a purchase list. Fill the table instantly.</h1><p>Accept SKU, barcode or variant ID with quantities from CSV or spreadsheet rows—then validate every line against the same quantity rules as manual entry.</p><div class="features"><span class="feature">CSV / Excel paste</span><span class="feature">SKU + barcode match</span><span class="feature">Validation feedback</span><span class="feature">One cart request</span></div></section></main></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Variant Quick Order — CSV Pro</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1600px;
+        height: 900px;
+        overflow: hidden;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        background: #f6f1e7;
+        color: #1e2521;
+      }
+      .frame {
+        height: 100%;
+        padding: 84px 96px;
+        display: grid;
+        grid-template-columns: 1fr 520px;
+        gap: 78px;
+        align-items: center;
+      }
+      .workspace {
+        background: #fff;
+        border: 1px solid #d7d0c3;
+        border-radius: 24px;
+        padding: 30px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+      .title {
+        font-size: 28px;
+        font-weight: 800;
+      }
+      .badge {
+        font-size: 14px;
+        font-weight: 800;
+        background: #15202b;
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+      }
+      .paste {
+        border: 1px solid #b9b0a1;
+        border-radius: 14px;
+        padding: 20px;
+      }
+      .paste h3 {
+        font-size: 18px;
+        margin: 0 0 12px;
+      }
+      .code {
+        height: 180px;
+        background: #f7f5f0;
+        border: 1px solid #d6d0c5;
+        border-radius: 10px;
+        padding: 18px;
+        font:
+          18px/1.8 ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        color: #48514b;
+      }
+      .apply {
+        display: inline-block;
+        margin-top: 14px;
+        background: #15202b;
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: 9px;
+        font-weight: 750;
+      }
+      .arrow {
+        text-align: center;
+        font-size: 38px;
+        color: #47a27e;
+        padding: 12px;
+      }
+      .rows {
+        border: 1px solid #d6d0c5;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1.2fr 0.9fr 0.65fr;
+        min-height: 59px;
+        align-items: center;
+        padding: 0 16px;
+        border-bottom: 1px solid #ddd6ca;
+      }
+      .row:last-child {
+        border-bottom: 0;
+      }
+      .head {
+        background: #faf8f4;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #7a786f;
+        font-size: 12px;
+        font-weight: 800;
+      }
+      .qty {
+        display: inline-grid;
+        place-items: center;
+        width: 70px;
+        height: 38px;
+        border: 1px solid #6f9485;
+        border-radius: 8px;
+        background: #e3f1eb;
+        font-weight: 800;
+      }
+      .copy .kicker {
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        font-weight: 800;
+        color: #49826d;
+      }
+      .copy h1 {
+        font-size: 68px;
+        line-height: 1.02;
+        letter-spacing: -0.055em;
+        margin: 18px 0 24px;
+      }
+      .copy p {
+        font-size: 24px;
+        line-height: 1.5;
+        color: #5d655f;
+        margin: 0;
+      }
+      .features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 30px;
+      }
+      .feature {
+        background: #fff;
+        border: 1px solid #d7d0c3;
+        border-radius: 11px;
+        padding: 14px 15px;
+        font-size: 15px;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="frame">
+      <section class="workspace">
+        <div class="top">
+          <span class="title">Paste SKU and quantity</span><span class="badge">PRO</span>
+        </div>
+        <div class="paste">
+          <h3>Spreadsheet rows</h3>
+          <div class="code">TEE-BLK-S, 12<br />TEE-BLK-M, 24<br />TEE-OLV-M, 12</div>
+          <span class="apply">Apply quantities</span>
+        </div>
+        <div class="arrow">↓</div>
+        <div class="rows">
+          <div class="row head"><span>SKU</span><span>Variant</span><span>Quantity</span></div>
+          <div class="row">
+            <strong>TEE-BLK-S</strong><span>Black / S</span><span class="qty">12</span>
+          </div>
+          <div class="row">
+            <strong>TEE-BLK-M</strong><span>Black / M</span><span class="qty">24</span>
+          </div>
+          <div class="row">
+            <strong>TEE-OLV-M</strong><span>Olive / M</span><span class="qty">12</span>
+          </div>
+        </div>
+      </section>
+      <section class="copy">
+        <span class="kicker">Pro workflow</span>
+        <h1>Paste a purchase list. Fill the table instantly.</h1>
+        <p>
+          Accept SKU, barcode or variant ID with quantities from CSV or spreadsheet rows—then
+          validate every line against the same quantity rules as manual entry.
+        </p>
+        <div class="features">
+          <span class="feature">CSV / Excel paste</span
+          ><span class="feature">SKU + barcode match</span
+          ><span class="feature">Validation feedback</span
+          ><span class="feature">One cart request</span>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

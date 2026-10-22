@@ -1,237 +1,111 @@
-# Shopify App Template - React Router
+# Variant Quick Order / Bulk Add Table
 
-This is a template for building a [Shopify app](https://shopify.dev/docs/apps/getting-started) using [React Router](https://reactrouter.com/). It was forked from the [Shopify Remix app template](https://github.com/Shopify/shopify-app-template-remix) and converted to React Router.
+Production-ready Shopify app for B2B, wholesale and option-heavy products. It renders a theme-native product-page table (or compact mobile cards) where buyers enter quantities for multiple variants and add all selected lines to cart in one action.
 
-Rather than cloning this repo, follow the [Quick Start steps](https://github.com/Shopify/shopify-app-template-react-router#quick-start).
+This repository was implemented against the supplied Material Calculator platform. Shared Shopify infrastructure is reused rather than copied: billing/plan catalogs, Partner API billing checks, app-owned metafield helpers, GDPR helpers, BullMQ factories/runtime identity, Admin UI extension helpers, the shared billing UI, PostgreSQL session storage and environment/deployment conventions.
 
-Visit the [`shopify.dev` documentation](https://shopify.dev/docs/api/shopify-app-react-router) for more details on the React Router app package.
+## Product behavior
 
-## Upgrading from Remix
+- Product Admin block enables/disables Quick Order and allows product heading/sort/sold-out overrides.
+- Variant Admin block adds Pro fallback minimum/maximum/increment/case-pack rules.
+- Theme App Extension supports option values, SKU, barcode, price, inventory, case/pack, quantity-rule, selected variant metafields and quantity inputs.
+- Buyers can add many variants with one Shopify Ajax Cart `cart/add.js` request.
+- Starter provides normal unlimited configured-product usage, standard columns, labels, sorting, mobile layouts and global fallback quantity rules.
+- Pro adds CSV/Excel-style paste, search, barcode/case/rule/metafield columns, B2B visibility controls, variant rule overrides, branding removal and variant paging above Liquid's first 250 variants up to 2,048.
+- No customer-profile or order-history database is created.
 
-If you have an existing Remix app that you want to upgrade to React Router, please follow the [upgrade guide](https://github.com/Shopify/shopify-app-template-react-router/wiki/Upgrading-from-Remix). Otherwise, please follow the quick start guide below.
+## Shared quantity-rule module
 
-## Quick start
+`packages/quantity-rules` is intentionally generic. It owns minimum/maximum/increment/case-pack normalization and validation so a future MOQ/case-pack app can consume the same semantics instead of duplicating them. Storefront resolution prefers meaningful native Shopify quantity rules when configured, then app variant overrides, then global fallback values.
 
-### Prerequisites
+## High-variant strategy
 
-Before you begin, you'll need to [download and install the Shopify CLI](https://shopify.dev/docs/apps/tools/cli/getting-started) if you haven't already.
+Liquid returns at most 250 unpaginated product variants. Free renders 50 and Starter renders 250 directly from Liquid. Pro starts with 250 context-aware Liquid rows, then uses the authenticated app proxy in pages of at most 100 until the product count or 2,048-plan ceiling is reached.
 
-### Setup
+The proxy queries only fields needed by configured columns and no Admin API query requests a large variant connection. The tiny Admin query used to read app-installation settings is separate from the Storefront variant page query. This keeps Admin GraphQL work comfortably below Shopify's 1,000-point single-query maximum and avoids a monolithic `variants(first: 2048)` Admin query.
 
-```shell
-shopify app init --template=https://github.com/Shopify/shopify-app-template-react-router
+For a Shopify B2B customer, the first 250 Liquid variants use the current customer/company context. The app-proxy Storefront query can preserve market/country context but cannot synthesize the customer's Storefront BuyerInput without a Customer Access Token. For appended B2B rows the UI therefore says `Calculated in cart` rather than presenting a potentially wrong customer-specific price; native B2B quantity rules are not falsely inferred for those appended rows. Merchant/app fallback quantity rules remain available.
+
+## Plans
+
+| Capability                                           | Free  | Starter   | Pro         |
+| ---------------------------------------------------- | ----- | --------- | ----------- |
+| Configured products                                  | 3     | Unlimited | Unlimited   |
+| Variant rows per product                             | 50    | 250       | Up to 2,048 |
+| Standard option/SKU/price/inventory/quantity columns | Yes   | Yes       | Yes         |
+| Custom labels, sorting, mobile layout                | Basic | Yes       | Yes         |
+| Global fallback quantity defaults                    | No    | Yes       | Yes         |
+| Barcode, case/pack, quantity-rule columns            | No    | No        | Yes         |
+| Up to 8 variant metafield columns                    | No    | No        | Yes         |
+| Search + B2B visibility controls                     | No    | No        | Yes         |
+| CSV / spreadsheet paste                              | No    | No        | Yes         |
+| Variant rule overrides                               | No    | No        | Yes         |
+| Remove app branding                                  | No    | No        | Yes         |
+
+Public-price recommendation for Shopify App Pricing: Starter `$7.99/month` or `$79/year`; Pro `$14.99/month` or `$149/year`, with a 7-day paid-plan trial. Keep private test plans out of App Store listing copy.
+
+## Local development
+
+Requirements: Node 24, pnpm 12, Docker, Shopify CLI, a development Shopify app/store, Partner API billing credentials.
+
+```bash
+corepack enable
+pnpm install
+cp .env.variant-quick-order.development.example .env.variant-quick-order.development
+pnpm infra:up
+pnpm db:setup
 ```
 
-### Local Development
+Link the dedicated development Shopify app to `shopify.app.variant-quick-order-development.toml`, then replace its placeholder client ID. Run:
 
-```shell
-shopify app dev
+```bash
+pnpm dev
 ```
 
-Press P to open the URL to your app. Once you click install, you can start development.
+To run the BullMQ worker alongside Shopify CLI:
 
-Local development is powered by [the Shopify CLI](https://shopify.dev/docs/apps/tools/cli). It logs into your account, connects to an app, provides environment variables, updates remote config, creates a tunnel and provides commands to generate extensions.
-
-### Authenticating and querying data
-
-To authenticate and query data you can use the `shopify` const that is exported from `/app/shopify.server.js`:
-
-```js
-export async function loader({ request }) {
-  const { admin } = await shopify.authenticate.admin(request);
-
-  const response = await admin.graphql(`
-    {
-      products(first: 25) {
-        nodes {
-          title
-          description
-        }
-      }
-    }`);
-
-  const {
-    data: {
-      products: { nodes },
-    },
-  } = await response.json();
-
-  return nodes;
-}
+```bash
+pnpm dev:with-worker
 ```
 
-This template comes pre-configured with examples of:
+The local database must be exactly `variant_quick_order_development`; staging and production use `variant_quick_order_staging` and `variant_quick_order_production`. The runtime boundary check rejects accidental cross-environment database use.
 
-1. Setting up your Shopify app in [/app/shopify.server.ts](https://github.com/Shopify/shopify-app-template-react-router/blob/main/app/shopify.server.ts)
-2. Querying data using Graphql. Please see: [/app/routes/app.\_index.tsx](https://github.com/Shopify/shopify-app-template-react-router/blob/main/app/routes/app._index.tsx).
-3. Responding to webhooks. Please see [/app/routes/webhooks.tsx](https://github.com/Shopify/shopify-app-template-react-router/blob/main/app/routes/webhooks.app.uninstalled.tsx).
-4. Using metafields, metaobjects, and declarative custom data definitions. Please see [/app/routes/app.\_index.tsx](https://github.com/Shopify/shopify-app-template-react-router/blob/main/app/routes/app._index.tsx) and [shopify.app.toml](https://github.com/Shopify/shopify-app-template-react-router/blob/main/shopify.app.toml).
+## Merchant setup
 
-Please read the [documentation for @shopify/shopify-app-react-router](https://shopify.dev/docs/api/shopify-app-react-router) to see what other API's are available.
+1. Install the app and choose a plan through Shopify App Pricing.
+2. In Shopify Admin, open a product and add/pin the **Variant Quick Order** Admin block.
+3. Enable Quick Order for the product and save.
+4. In the app, open **Storefront** and configure columns, labels, sorting, quantity defaults and mobile layout.
+5. In the Theme Editor, add the **Variant quick order** app block to the desired product template.
+6. Pro merchants can optionally configure per-variant fallback quantity rules from the variant Admin block.
+7. If a merchant customizes the app-proxy URL under Shopify app settings, update the Theme block's **App proxy path** field to the customized `/prefix/subpath`.
 
-## Shopify Dev MCP
+## Environment and deployment
 
-This template is configured with the Shopify Dev MCP. This instructs [Cursor](https://cursor.com/), [GitHub Copilot](https://github.com/features/copilot) and [Claude Code](https://claude.com/product/claude-code) and [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) to use the Shopify Dev MCP.
+The repository includes three isolated Shopify config files following the platform convention:
 
-For more information on the Shopify Dev MCP please read [the documentation](https://shopify.dev/docs/apps/build/devmcp).
+- `shopify.app.variant-quick-order-development.toml`
+- `shopify.app.variant-quick-order-staging.toml`
+- `shopify.app.variant-quick-order-production.toml`
 
-## Deployment
+Each environment must have its own Shopify app identity, secrets, app URL, webhooks, PostgreSQL database and Redis namespace/runtime identity. Deploy only after linking each config to the matching app.
 
-### Application Storage
-
-This template uses [Prisma](https://www.prisma.io/) to store session data, by default using an [SQLite](https://www.sqlite.org/index.html) database.
-The database is defined as a Prisma schema in `prisma/schema.prisma`.
-
-This use of SQLite works in production if your app runs as a single instance.
-The database that works best for you depends on the data your app needs and how it is queried.
-Here’s a short list of databases providers that provide a free tier to get started:
-
-| Database   | Type             | Hosters                                                                                                                                                                                                                                    |
-| ---------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| MySQL      | SQL              | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-mysql), [Planet Scale](https://planetscale.com/), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/mysql) |
-| PostgreSQL | SQL              | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-postgresql), [Amazon Aurora](https://aws.amazon.com/rds/aurora/), [Google Cloud SQL](https://cloud.google.com/sql/docs/postgres)                                   |
-| Redis      | Key-value        | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-redis), [Amazon MemoryDB](https://aws.amazon.com/memorydb/)                                                                                                        |
-| MongoDB    | NoSQL / Document | [Digital Ocean](https://www.digitalocean.com/products/managed-databases-mongodb), [MongoDB Atlas](https://www.mongodb.com/atlas/database)                                                                                                  |
-
-To use one of these, you can use a different [datasource provider](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#datasource) in your `schema.prisma` file, or a different [SessionStorage adapter package](https://github.com/Shopify/shopify-api-js/blob/main/packages/shopify-api/docs/guides/session-storage.md).
-
-### Build
-
-Build the app by running the command below with the package manager of your choice:
-
-Using yarn:
-
-```shell
-yarn build
+```bash
+pnpm deploy:development
+APP_ENV=staging pnpm deploy:staging
+ALLOW_PRODUCTION_DEPLOY=yes APP_ENV=production pnpm deploy:production
 ```
 
-Using npm:
+`docker-compose.dokploy.example.yaml` preserves the Material Calculator pattern of sharing low-resource Postgres/Redis infrastructure while keeping app/environment data and BullMQ queue names isolated.
 
-```shell
-npm run build
+## Verification
+
+```bash
+pnpm lint:configs
+pnpm test:all
+pnpm typecheck
+pnpm build
+pnpm marketing:typecheck
 ```
 
-Using pnpm:
-
-```shell
-pnpm run build
-```
-
-## Hosting
-
-When you're ready to set up your app in production, you can follow [our deployment documentation](https://shopify.dev/docs/apps/launch/deployment) to host it externally. From there, you have a few options:
-
-- [Google Cloud Run](https://shopify.dev/docs/apps/launch/deployment/deploy-to-google-cloud-run): This tutorial is written specifically for this example repo, and is compatible with the extended steps included in the subsequent [**Build your app**](tutorial) in the **Getting started** docs. It is the most detailed tutorial for taking a React Router-based Shopify app and deploying it to production. It includes configuring permissions and secrets, setting up a production database, and even hosting your apps behind a load balancer across multiple regions.
-- [Fly.io](https://fly.io/docs/js/shopify/): Leverages the Fly.io CLI to quickly launch Shopify apps to a single machine.
-- [Render](https://render.com/docs/deploy-shopify-app): This tutorial guides you through using Docker to deploy and install apps on a Dev store.
-- [Manual deployment guide](https://shopify.dev/docs/apps/launch/deployment/deploy-to-hosting-service): This resource provides general guidance on the requirements of deployment including environment variables, secrets, and persistent data.
-
-When you reach the step for [setting up environment variables](https://shopify.dev/docs/apps/deployment/web#set-env-vars), you also need to set the variable `NODE_ENV=production`.
-
-## Gotchas / Troubleshooting
-
-### Database tables don't exist
-
-If you get an error like:
-
-```
-The table `main.Session` does not exist in the current database.
-```
-
-Create the database for Prisma. Run the `setup` script in `package.json` using `npm`, `yarn` or `pnpm`.
-
-### Navigating/redirecting breaks an embedded app
-
-Embedded apps must maintain the user session, which can be tricky inside an iFrame. To avoid issues:
-
-1. Use `Link` from `react-router` or `@shopify/polaris`. Do not use `<a>`.
-2. Use `redirect` returned from `authenticate.admin`. Do not use `redirect` from `react-router`
-3. Use `useSubmit` from `react-router`.
-
-This only applies if your app is embedded, which it will be by default.
-
-### Webhooks: shop-specific webhook subscriptions aren't updated
-
-If you are registering webhooks in the `afterAuth` hook, using `shopify.registerWebhooks`, you may find that your subscriptions aren't being updated.
-
-Instead of using the `afterAuth` hook declare app-specific webhooks in the `shopify.app.toml` file. This approach is easier since Shopify will automatically sync changes every time you run `deploy` (e.g: `npm run deploy`). Please read these guides to understand more:
-
-1. [app-specific vs shop-specific webhooks](https://shopify.dev/docs/apps/build/webhooks/subscribe#app-specific-subscriptions)
-2. [Create a subscription tutorial](https://shopify.dev/docs/apps/build/webhooks/subscribe/get-started?deliveryMethod=https)
-
-If you do need shop-specific webhooks, keep in mind that the package calls `afterAuth` in 2 scenarios:
-
-- After installing the app
-- When an access token expires
-
-During normal development, the app won't need to re-authenticate most of the time, so shop-specific subscriptions aren't updated. To force your app to update the subscriptions, uninstall and reinstall the app. Revisiting the app will call the `afterAuth` hook.
-
-### Webhooks: Admin created webhook failing HMAC validation
-
-Webhooks subscriptions created in the [Shopify admin](https://help.shopify.com/en/manual/orders/notifications/webhooks) will fail HMAC validation. This is because the webhook payload is not signed with your app's secret key.
-
-The recommended solution is to use [app-specific webhooks](https://shopify.dev/docs/apps/build/webhooks/subscribe#app-specific-subscriptions) defined in your toml file instead. Test your webhooks by triggering events manually in the Shopify admin(e.g. Updating the product title to trigger a `PRODUCTS_UPDATE`).
-
-### Webhooks: Admin object undefined on webhook events triggered by the CLI
-
-When you trigger a webhook event using the Shopify CLI, the `admin` object will be `undefined`. This is because the CLI triggers an event with a valid, but non-existent, shop. The `admin` object is only available when the webhook is triggered by a shop that has installed the app. This is expected.
-
-Webhooks triggered by the CLI are intended for initial experimentation testing of your webhook configuration. For more information on how to test your webhooks, see the [Shopify CLI documentation](https://shopify.dev/docs/apps/tools/cli/commands#webhook-trigger).
-
-### Incorrect GraphQL Hints
-
-By default the [graphql.vscode-graphql](https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql) extension for will assume that GraphQL queries or mutations are for the [Shopify Admin API](https://shopify.dev/docs/api/admin). This is a sensible default, but it may not be true if:
-
-1. You use another Shopify API such as the storefront API.
-2. You use a third party GraphQL API.
-
-If so, please update [.graphqlrc.ts](https://github.com/Shopify/shopify-app-template-react-router/blob/main/.graphqlrc.ts).
-
-### Using Defer & await for streaming responses
-
-By default the CLI uses a cloudflare tunnel. Unfortunately cloudflare tunnels wait for the Response stream to finish, then sends one chunk. This will not affect production.
-
-To test [streaming using await](https://reactrouter.com/api/components/Await#await) during local development we recommend [localhost based development](https://shopify.dev/docs/apps/build/cli-for-apps/networking-options#localhost-based-development).
-
-### "nbf" claim timestamp check failed
-
-This is because a JWT token is expired. If you are consistently getting this error, it could be that the clock on your machine is not in sync with the server. To fix this ensure you have enabled "Set time and date automatically" in the "Date and Time" settings on your computer.
-
-### Using MongoDB and Prisma
-
-If you choose to use MongoDB with Prisma, there are some gotchas in Prisma's MongoDB support to be aware of. Please see the [Prisma SessionStorage README](https://www.npmjs.com/package/@shopify/shopify-app-session-storage-prisma#mongodb).
-
-### Unable to require(`C:\...\query_engine-windows.dll.node`).
-
-Unable to require(`C:\...\query_engine-windows.dll.node`).
-The Prisma engines do not seem to be compatible with your system.
-
-query_engine-windows.dll.node is not a valid Win32 application.
-
-**Fix:** Set the environment variable:
-
-```shell
-PRISMA_CLIENT_ENGINE_TYPE=binary
-```
-
-This forces Prisma to use the binary engine mode, which runs the query engine as a separate process and can work via emulation on Windows ARM64.
-
-## Resources
-
-React Router:
-
-- [React Router docs](https://reactrouter.com/home)
-
-Shopify:
-
-- [Intro to Shopify apps](https://shopify.dev/docs/apps/getting-started)
-- [Shopify App React Router docs](https://shopify.dev/docs/api/shopify-app-react-router)
-- [Shopify CLI](https://shopify.dev/docs/apps/tools/cli)
-- [Shopify App Bridge](https://shopify.dev/docs/api/app-bridge-library).
-- [Polaris Web Components](https://shopify.dev/docs/api/app-home/polaris-web-components).
-- [App extensions](https://shopify.dev/docs/apps/app-extensions/list)
-- [Shopify Functions](https://shopify.dev/docs/api/functions)
-
-Internationalization:
-
-- [Internationalizing your app](https://shopify.dev/docs/apps/best-practices/internationalization/getting-started)
+See `docs/` for architecture, API/cost behavior, competitor research, App Store submission copy, review instructions and launch/media checklists.

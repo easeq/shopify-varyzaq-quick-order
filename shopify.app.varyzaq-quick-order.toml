@@ -1,0 +1,60 @@
+# Link this file to the dedicated development app with:
+#   shopify app config link --config variant-quick-order-development
+client_id = "f7e418f20ceefaaa0f72f2a6680df765"
+name = "Varyzaq Quick Order"
+application_url = "https://varyzaq-quick-order-api.zerqith.com"
+embedded = true
+handle = "varyzaq-quick-order"
+
+[build]
+automatically_update_urls_on_dev = false
+include_config_on_deploy = true
+
+[access_scopes]
+scopes = "read_products,write_products,write_app_proxy"
+
+[auth]
+redirect_urls = ["https://varyzaq-quick-order-api.zerqith.com/api/auth"]
+
+[webhooks]
+api_version = "2026-10"
+
+[[webhooks.subscriptions]]
+topics = ["app/uninstalled"]
+uri = "/webhooks/app/uninstalled"
+
+[[webhooks.subscriptions]]
+compliance_topics = [
+  "customers/data_request",
+  "customers/redact",
+  "shop/redact",
+]
+uri = "/webhooks"
+
+[[webhooks.subscriptions]]
+topics = ["app/scopes_update"]
+uri = "/webhooks/app/scopes_update"
+
+[app_proxy]
+url = "/apps/varyzaq-quick-order-api"
+prefix = "apps"
+subpath = "varyzaq-quick-order"
+
+[product.metafields.app.quick_order_config]
+name = "Variant Quick Order configuration"
+description = "Product-specific Quick Order display settings."
+type = "json"
+access.admin = "merchant_read"
+access.storefront = "none"
+
+[product.metafields.app.quick_order_configured]
+name = "Variant Quick Order configured"
+description = "Whether Variant Quick Order is enabled on this product."
+type = "boolean"
+access.admin = "merchant_read"
+access.storefront = "none"
+capabilities.admin_filterable = true
+
+# ProductVariant quick_order_rule is provisioned idempotently via Admin GraphQL.
+# This follows the Material Calculator convention for ProductVariant app-owned
+# definitions while preserving CLI compatibility.

@@ -14,13 +14,16 @@
 ## App-owned data
 
 Product:
+
 - `$app.quick_order_config` JSON
 - `$app.quick_order_configured` Boolean/filter flag
 
 ProductVariant:
+
 - `$app.quick_order_rule` JSON, provisioned idempotently at runtime with merchant read + storefront public read.
 
 AppInstallation:
+
 - `variant_quick_order.plan`
 - `variant_quick_order.capabilities`
 - `variant_quick_order.storefront_settings`

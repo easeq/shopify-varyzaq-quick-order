@@ -1,3 +1,241 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Variant Quick Order — Configure</title><style>
-*{box-sizing:border-box}html,body{margin:0;width:1600px;height:900px;overflow:hidden;font-family:Inter,ui-sans-serif,system-ui,sans-serif;background:#15202b;color:#fff}.frame{height:100%;padding:78px 92px;display:grid;grid-template-columns:500px 1fr;gap:78px}.copy{align-self:center}.kicker{font-size:17px;text-transform:uppercase;letter-spacing:.08em;color:#9ed9c2;font-weight:750}.copy h1{font-size:66px;line-height:1.02;letter-spacing:-.05em;margin:20px 0}.copy p{font-size:24px;line-height:1.5;color:#c8d1d5;margin:0}.list{margin-top:32px;display:grid;gap:13px}.item{display:flex;gap:12px;align-items:center;font-size:18px}.dot{width:12px;height:12px;border-radius:3px;background:#46b98b}.panel{background:#fff;color:#172027;border-radius:24px;padding:32px 34px;display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-content:start}.panel h2{margin:0 0 22px;font-size:29px}.section{border:1px solid #d5ddda;border-radius:14px;padding:20px;margin-bottom:18px}.label{font-size:14px;font-weight:750;margin-bottom:8px}.field{height:45px;border:1px solid #9fb1aa;border-radius:9px;padding:11px 13px;color:#44524d;background:#fbfcfc}.checks{display:grid;gap:12px}.check{display:flex;align-items:center;gap:11px;font-size:15px}.box{width:20px;height:20px;border:1px solid #779388;border-radius:5px;display:grid;place-items:center}.box.on{background:#46b98b;border-color:#46b98b;color:#10241d}.mobile{border:1px solid #d5ddda;border-radius:20px;padding:18px;background:#f7f9f8}.phone{border:2px solid #26342f;border-radius:28px;padding:22px 14px;height:515px;background:#fff}.phone-title{font-weight:800;font-size:19px;margin:3px 0 16px}.card{border-top:1px solid #dbe2df;padding:15px 0;display:grid;grid-template-columns:1fr 74px;gap:10px}.meta{font-size:12px;color:#6a7672;margin-top:5px}.qty{height:40px;border:1px solid #9fb1aa;border-radius:8px;display:grid;place-items:center;font-weight:700}.button{margin-top:16px;background:#172027;color:white;border-radius:9px;padding:13px;text-align:center;font-weight:750}
-</style></head><body><main class="frame"><section class="copy"><span class="kicker">Merchant controls</span><h1>Configure the table, not the theme code.</h1><p>Choose what buyers see, rename labels, set sorting and select a compact mobile layout from the app.</p><div class="list"><div class="item"><span class="dot"></span>Visible columns and custom labels</div><div class="item"><span class="dot"></span>Product and variant Admin blocks</div><div class="item"><span class="dot"></span>Theme-native fields and buttons</div><div class="item"><span class="dot"></span>Shared MOQ / case-pack semantics</div></div></section><section class="panel"><div><h2>Storefront settings</h2><div class="section"><div class="label">Heading</div><div class="field">Order sizes</div></div><div class="section"><div class="label">Columns</div><div class="checks"><div class="check"><span class="box on">✓</span>Options</div><div class="check"><span class="box on">✓</span>SKU</div><div class="check"><span class="box on">✓</span>Price</div><div class="check"><span class="box on">✓</span>Availability</div><div class="check"><span class="box on">✓</span>Quantity</div><div class="check"><span class="box"> </span>Barcode</div></div></div><div class="section"><div class="label">Mobile layout</div><div class="field">Compact cards</div></div></div><div class="mobile"><div class="phone"><div class="phone-title">Order sizes</div><div class="card"><div><strong>Black / Small</strong><div class="meta">TEE-BLK-S · $12.40 · In stock</div></div><div class="qty">12</div></div><div class="card"><div><strong>Black / Medium</strong><div class="meta">TEE-BLK-M · $12.40 · In stock</div></div><div class="qty">24</div></div><div class="card"><div><strong>Olive / Medium</strong><div class="meta">TEE-OLV-M · $12.90 · In stock</div></div><div class="qty"></div></div><div class="button">Add selected to cart</div></div></div></section></main></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Variant Quick Order — Configure</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1600px;
+        height: 900px;
+        overflow: hidden;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        background: #15202b;
+        color: #fff;
+      }
+      .frame {
+        height: 100%;
+        padding: 78px 92px;
+        display: grid;
+        grid-template-columns: 500px 1fr;
+        gap: 78px;
+      }
+      .copy {
+        align-self: center;
+      }
+      .kicker {
+        font-size: 17px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #9ed9c2;
+        font-weight: 750;
+      }
+      .copy h1 {
+        font-size: 66px;
+        line-height: 1.02;
+        letter-spacing: -0.05em;
+        margin: 20px 0;
+      }
+      .copy p {
+        font-size: 24px;
+        line-height: 1.5;
+        color: #c8d1d5;
+        margin: 0;
+      }
+      .list {
+        margin-top: 32px;
+        display: grid;
+        gap: 13px;
+      }
+      .item {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font-size: 18px;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        background: #46b98b;
+      }
+      .panel {
+        background: #fff;
+        color: #172027;
+        border-radius: 24px;
+        padding: 32px 34px;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 34px;
+        align-content: start;
+      }
+      .panel h2 {
+        margin: 0 0 22px;
+        font-size: 29px;
+      }
+      .section {
+        border: 1px solid #d5ddda;
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 18px;
+      }
+      .label {
+        font-size: 14px;
+        font-weight: 750;
+        margin-bottom: 8px;
+      }
+      .field {
+        height: 45px;
+        border: 1px solid #9fb1aa;
+        border-radius: 9px;
+        padding: 11px 13px;
+        color: #44524d;
+        background: #fbfcfc;
+      }
+      .checks {
+        display: grid;
+        gap: 12px;
+      }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-size: 15px;
+      }
+      .box {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #779388;
+        border-radius: 5px;
+        display: grid;
+        place-items: center;
+      }
+      .box.on {
+        background: #46b98b;
+        border-color: #46b98b;
+        color: #10241d;
+      }
+      .mobile {
+        border: 1px solid #d5ddda;
+        border-radius: 20px;
+        padding: 18px;
+        background: #f7f9f8;
+      }
+      .phone {
+        border: 2px solid #26342f;
+        border-radius: 28px;
+        padding: 22px 14px;
+        height: 515px;
+        background: #fff;
+      }
+      .phone-title {
+        font-weight: 800;
+        font-size: 19px;
+        margin: 3px 0 16px;
+      }
+      .card {
+        border-top: 1px solid #dbe2df;
+        padding: 15px 0;
+        display: grid;
+        grid-template-columns: 1fr 74px;
+        gap: 10px;
+      }
+      .meta {
+        font-size: 12px;
+        color: #6a7672;
+        margin-top: 5px;
+      }
+      .qty {
+        height: 40px;
+        border: 1px solid #9fb1aa;
+        border-radius: 8px;
+        display: grid;
+        place-items: center;
+        font-weight: 700;
+      }
+      .button {
+        margin-top: 16px;
+        background: #172027;
+        color: white;
+        border-radius: 9px;
+        padding: 13px;
+        text-align: center;
+        font-weight: 750;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="frame">
+      <section class="copy">
+        <span class="kicker">Merchant controls</span>
+        <h1>Configure the table, not the theme code.</h1>
+        <p>
+          Choose what buyers see, rename labels, set sorting and select a compact mobile layout from
+          the app.
+        </p>
+        <div class="list">
+          <div class="item"><span class="dot"></span>Visible columns and custom labels</div>
+          <div class="item"><span class="dot"></span>Product and variant Admin blocks</div>
+          <div class="item"><span class="dot"></span>Theme-native fields and buttons</div>
+          <div class="item"><span class="dot"></span>Shared MOQ / case-pack semantics</div>
+        </div>
+      </section>
+      <section class="panel">
+        <div>
+          <h2>Storefront settings</h2>
+          <div class="section">
+            <div class="label">Heading</div>
+            <div class="field">Order sizes</div>
+          </div>
+          <div class="section">
+            <div class="label">Columns</div>
+            <div class="checks">
+              <div class="check"><span class="box on">✓</span>Options</div>
+              <div class="check"><span class="box on">✓</span>SKU</div>
+              <div class="check"><span class="box on">✓</span>Price</div>
+              <div class="check"><span class="box on">✓</span>Availability</div>
+              <div class="check"><span class="box on">✓</span>Quantity</div>
+              <div class="check"><span class="box"> </span>Barcode</div>
+            </div>
+          </div>
+          <div class="section">
+            <div class="label">Mobile layout</div>
+            <div class="field">Compact cards</div>
+          </div>
+        </div>
+        <div class="mobile">
+          <div class="phone">
+            <div class="phone-title">Order sizes</div>
+            <div class="card">
+              <div>
+                <strong>Black / Small</strong>
+                <div class="meta">TEE-BLK-S · $12.40 · In stock</div>
+              </div>
+              <div class="qty">12</div>
+            </div>
+            <div class="card">
+              <div>
+                <strong>Black / Medium</strong>
+                <div class="meta">TEE-BLK-M · $12.40 · In stock</div>
+              </div>
+              <div class="qty">24</div>
+            </div>
+            <div class="card">
+              <div>
+                <strong>Olive / Medium</strong>
+                <div class="meta">TEE-OLV-M · $12.90 · In stock</div>
+              </div>
+              <div class="qty"></div>
+            </div>
+            <div class="button">Add selected to cart</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -2,28 +2,43 @@
   "name": "varyzaq-quick-order",
   "private": true,
   "scripts": {
-    "build": "react-router build",
-    "dev": "shopify app dev",
-    "config:link": "shopify app config link",
-    "generate": "shopify app generate",
-    "deploy": "shopify app deploy",
-    "config:use": "shopify app config use",
-    "env": "shopify app env",
-    "start": "react-router-serve ./build/server/index.js",
-    "docker-start": "npm run setup && npm run start",
-    "setup": "prisma generate && prisma migrate deploy",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
-    "shopify": "shopify",
-    "prisma": "prisma",
-    "graphql-codegen": "graphql-codegen",
-    "vite": "vite",
-    "typecheck": "react-router typegen && tsc --noEmit"
+    "dev": "set -a && . ./.env && set +a && pnpm infra:down && pnpm infra:up && shopify app dev --config variant-quick-order-development --store \"$SHOPIFY_DEV_STORE\"",
+    "infra:up": "docker compose -f docker-compose.local.yaml up -d postgres redis",
+    "infra:down": "docker compose -f docker-compose.local.yaml down",
+    "infra:logs": "docker compose -f docker-compose.local.yaml logs -f postgres redis worker",
+    "db:setup": "prisma generate && prisma migrate deploy",
+    "build": "react-router build && pnpm build:workers",
+    "build:workers": "tsup worker.ts --format esm --out-dir dist --clean",
+    "start": "react-router-serve build/server/index.js",
+    "worker:start": "WORKER_ROLES=all node dist/worker.js",
+    "docker-start": "pnpm db:setup && react-router-serve build/server/index.js",
+    "docker-worker-start": "WORKER_ROLES=all node dist/worker.js",
+    "docker-migrate": "prisma migrate deploy",
+    "typecheck": "react-router typegen && tsc --noEmit",
+    "test": "node --experimental-strip-types --test packages/shopify-app-core/test/*.test.ts packages/quantity-rules/test/*.test.ts",
+    "test:integration": "node --experimental-strip-types --test tests/*.integration.test.ts",
+    "test:all": "pnpm test && pnpm test:integration",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint:configs": "node scripts/validate-configs.mjs",
+    "check": "pnpm format:check && pnpm lint:configs && pnpm test:all && pnpm typecheck && pnpm build",
+    "deploy": "shopify app deploy --allow-updates",
+    "marketing:studio": "pnpm --dir marketing/remotion studio",
+    "marketing:typecheck": "pnpm --dir marketing/remotion typecheck",
+    "marketing:render": "pnpm --dir marketing/remotion render",
+    "create:env": "node scripts/create-env.mjs",
+    "dev:with-worker": "node scripts/dev-with-worker.mjs",
+    "worker:local": "node scripts/local-worker.mjs"
   },
   "type": "module",
   "engines": {
     "node": ">=22.12"
   },
   "dependencies": {
+    "@app-platform/quantity-rules": "workspace:*",
+    "@app-platform/shopify-admin-extension-core": "workspace:*",
+    "@app-platform/shopify-core": "workspace:*",
+    "@app-platform/shopify-ui": "workspace:*",
     "@prisma/client": "^6.16.3",
     "@react-router/dev": "7.18.2",
     "@react-router/fs-routes": "7.18.2",
@@ -32,6 +47,8 @@
     "@shopify/app-bridge-react": "^4.2.4",
     "@shopify/shopify-app-react-router": "^3.0.0",
     "@shopify/shopify-app-session-storage-prisma": "^11.0.0",
+    "bullmq": "^5.58.0",
+    "ioredis": "^5.7.0",
     "isbot": "^5.1.31",
     "prisma": "^6.16.3",
     "react": "^18.3.1",
@@ -56,11 +73,14 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "graphql-config": "^5.1.1",
     "prettier": "^3.6.2",
+    "tsup": "^8.5.0",
     "typescript": "^5.9.3",
+    "tsx": "^4.20.6",
     "vite": "^6.3.6"
   },
   "workspaces": {
     "packages": [
+      "packages/*",
       "extensions/*"
     ]
   },
@@ -73,11 +93,6 @@
   },
   "resolutions": {
     "qs": "^6.16.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "qs": "^6.16.0"
-    }
   },
   "author": "eon"
 }

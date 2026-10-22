@@ -32,15 +32,13 @@ export function BillingPanel({
           <s-badge tone="info">{displayName}</s-badge>
 
           {currentPeriodEnd ? (
-            <s-paragraph>
-              Billing period ends {formatDate(currentPeriodEnd)}.
-            </s-paragraph>
+            <s-paragraph>Billing period ends {formatDate(currentPeriodEnd)}.</s-paragraph>
           ) : null}
         </s-stack>
 
         <s-paragraph>
-          Manage your subscription, review your current plan, or switch to a
-          different plan at any time.
+          Manage your subscription, review your current plan, or switch to a different plan at any
+          time.
         </s-paragraph>
 
         <s-button variant="primary" target="_top" href={billingUrl}>

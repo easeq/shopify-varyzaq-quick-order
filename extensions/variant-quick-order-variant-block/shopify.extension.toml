@@ -1,0 +1,10 @@
+api_version = "2026-04"
+[[extensions]]
+name = "t:name"
+handle = "variant-quick-order-variant-block"
+uid = "c3f74fa8-0927-7268-0bca-e553813ba8fa8705c8f2"
+type = "ui_extension"
+description = "Configure Variant Quick Order quantity rules on Shopify variant pages"
+[[extensions.targeting]]
+target = "admin.product-variant-details.block.render"
+module = "./src/BlockExtension.jsx"

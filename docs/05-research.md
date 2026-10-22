@@ -5,6 +5,7 @@
 Shopify App Store competitors establish a clear buyer expectation: spreadsheet/table ordering, quantity inputs across variants, one-action cart adds, min/max/increment controls, mobile-friendly layouts and progressively richer wholesale tools such as SKU/CSV paste, barcode/search and custom columns.
 
 Examples reviewed:
+
 - MultiVariants – B2B quantity/min-max/increment/case-pack and matrix/table patterns.
 - Smart Variant Kit – table/matrix/card layouts, search/filtering and custom columns.
 - Bulk Order Supreme – bulk grid plus copy/paste and CSV/Excel workflows.

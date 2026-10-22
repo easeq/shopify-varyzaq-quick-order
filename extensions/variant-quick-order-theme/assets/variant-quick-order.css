@@ -1,0 +1,210 @@
+.vqo-root {
+  --vqo-border: color-mix(in srgb, currentColor 18%, transparent);
+  --vqo-muted: color-mix(in srgb, currentColor 66%, transparent);
+  margin: 1.25rem 0;
+  color: inherit;
+  font: inherit;
+}
+.vqo-root[hidden],
+.vqo-root [hidden] {
+  display: none !important;
+}
+.vqo-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+}
+.vqo-heading {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  font-size: 1.15em;
+  font-weight: 600;
+}
+.vqo-summary,
+.vqo-status {
+  margin: 0;
+  color: var(--vqo-muted);
+  font-size: 0.9em;
+}
+.vqo-pro-tools {
+  display: flex;
+  align-items: end;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0.65rem 0;
+}
+.vqo-field {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.88em;
+}
+.vqo-field input,
+.vqo-csv textarea,
+.vqo-qty {
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 0.55rem 0.65rem;
+  border: var(--inputs-border-width, 1px) solid var(--vqo-border);
+  border-radius: var(--inputs-radius, 0);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.vqo-search-field {
+  min-width: min(100%, 18rem);
+}
+.vqo-csv summary {
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+.vqo-csv-body {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  min-width: min(30rem, 90vw);
+}
+.vqo-table-wrap {
+  overflow-x: auto;
+  border-top: 1px solid var(--vqo-border);
+  border-bottom: 1px solid var(--vqo-border);
+}
+.vqo-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: inherit;
+  font: inherit;
+}
+.vqo-table th,
+.vqo-table td {
+  padding: 0.68rem 0.6rem;
+  border-bottom: 1px solid var(--vqo-border);
+  text-align: left;
+  vertical-align: middle;
+}
+.vqo-table th {
+  font-size: 0.78em;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+  color: var(--vqo-muted);
+  font-weight: 600;
+}
+.vqo-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.vqo-options {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+.vqo-option {
+  display: inline-flex;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--vqo-border);
+  border-radius: 999px;
+  font-size: 0.82em;
+}
+.vqo-stock {
+  font-size: 0.88em;
+}
+.vqo-stock[data-sold-out="true"] {
+  color: var(--vqo-muted);
+}
+.vqo-qty {
+  width: 6.4rem;
+  min-width: 5.5rem;
+}
+.vqo-qty[aria-invalid="true"] {
+  outline: 2px solid #b91c1c;
+  outline-offset: 1px;
+}
+.vqo-rule {
+  font-size: 0.82em;
+  color: var(--vqo-muted);
+  white-space: nowrap;
+}
+.vqo-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 0.85rem;
+}
+.vqo-add,
+.vqo-secondary {
+  min-height: 42px;
+  padding: 0.62rem 1rem;
+  border: var(--buttons-border-width, 1px) solid currentColor;
+  border-radius: var(--buttons-radius, 0);
+  background: rgb(var(--color-button, 0 0 0));
+  color: rgb(var(--color-button-text, 255 255 255));
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.vqo-secondary {
+  background: transparent;
+  color: inherit;
+}
+.vqo-add:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.vqo-branding {
+  margin-top: 0.45rem;
+  color: var(--vqo-muted);
+  font-size: 0.72em;
+  text-align: right;
+}
+.vqo-cards {
+  display: grid;
+  gap: 0.65rem;
+}
+.vqo-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--vqo-border);
+}
+.vqo-card-main {
+  display: grid;
+  gap: 0.3rem;
+}
+.vqo-card-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  color: var(--vqo-muted);
+  font-size: 0.84em;
+}
+.vqo-empty {
+  padding: 1rem 0;
+  color: var(--vqo-muted);
+}
+@media (max-width: 620px) {
+  .vqo-header,
+  .vqo-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .vqo-root[data-mobile-layout="cards"] .vqo-table-wrap {
+    display: none;
+  }
+  .vqo-root[data-mobile-layout="cards"] .vqo-cards {
+    display: grid !important;
+  }
+  .vqo-add {
+    width: 100%;
+  }
+}
+@media (min-width: 621px) {
+  .vqo-cards {
+    display: none !important;
+  }
+}

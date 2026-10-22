@@ -12,6 +12,7 @@ const actions = {
   restart: [...base, "restart", "worker"],
   status: [...base, "ps"],
 };
-if (!actions[action]) throw new Error("Usage: node scripts/local-worker.mjs [up|down|logs|restart|status]");
+if (!actions[action])
+  throw new Error("Usage: node scripts/local-worker.mjs [up|down|logs|restart|status]");
 const child = spawn("docker", actions[action], { stdio: "inherit", env });
 child.on("exit", (code) => process.exit(code ?? 0));

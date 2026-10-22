@@ -1,0 +1,120 @@
+{% assign configured = product.metafields['$app'].quick_order_configured.value %}
+{% assign product_config = product.metafields['$app'].quick_order_config.value %}
+{% assign plan = app.metafields.variant_quick_order.plan.value | default: 'free' %}
+{% assign capabilities = app.metafields.variant_quick_order.capabilities.value | default: 'quick_order,product_configuration' %}
+{% assign settings = app.metafields.variant_quick_order.storefront_settings.value %}
+{% assign allowed_for_customer = true %}
+{% if settings.requireLoggedInCustomer and customer == nil %}{% assign allowed_for_customer = false %}{% endif %}
+{% if settings.requireB2BCompany and customer.current_company == nil %}{% assign allowed_for_customer = false %}{% endif %}
+{% assign initial_limit = 50 %}
+{% unless plan == 'free' %}{% assign initial_limit = 250 %}{% endunless %}
+
+{% if product and configured and product_config.enabled != false and allowed_for_customer %}
+  <div
+    class="vqo-root"
+    data-vqo-root
+    data-product-handle="{{ product.handle | escape }}"
+    data-product-id="{{ product.id }}"
+    data-variant-count="{{ product.variants_count }}"
+    data-plan="{{ plan | escape }}"
+    data-capabilities="{{ capabilities | escape }}"
+    data-settings="{{ settings | json | escape }}"
+    data-product-config="{{ product_config | json | escape }}"
+    data-country="{{ localization.country.iso_code | escape }}"
+    data-proxy-path="{{ block.settings.proxy_path | default: '/apps/variant-quick-order' | escape }}"
+    data-b2b="{% if customer.current_company %}true{% else %}false{% endif %}"
+  >
+    <div class="vqo-header">
+      <h3 class="vqo-heading">{{ product_config.heading | default: settings.heading | default: 'Quick order' | escape }}</h3>
+      <p class="vqo-summary" data-vqo-summary aria-live="polite"></p>
+    </div>
+
+    <div class="vqo-pro-tools" data-vqo-pro-tools hidden>
+      <label class="vqo-field vqo-search-field" data-vqo-search-wrap hidden>
+        <span>Search variants</span>
+        <input type="search" data-vqo-search autocomplete="off" placeholder="SKU, barcode or option" />
+      </label>
+      <details class="vqo-csv" data-vqo-csv hidden>
+        <summary>{{ settings.csvLabel | default: 'Paste SKU and quantity' | escape }}</summary>
+        <div class="vqo-csv-body">
+          <textarea data-vqo-csv-input rows="6" placeholder="SKU-RED-S, 12&#10;SKU-BLUE-M, 24"></textarea>
+          <button type="button" class="vqo-secondary" data-vqo-apply-csv>Apply quantities</button>
+        </div>
+      </details>
+    </div>
+
+    <div class="vqo-table-wrap" data-vqo-table-wrap>
+      <table class="vqo-table">
+        <thead data-vqo-head></thead>
+        <tbody data-vqo-body></tbody>
+      </table>
+    </div>
+    <div class="vqo-cards" data-vqo-cards hidden></div>
+
+    <div class="vqo-footer">
+      <div class="vqo-status" data-vqo-status aria-live="polite"></div>
+      <button type="button" class="vqo-add" data-vqo-add>{{ settings.addButtonLabel | default: 'Add selected to cart' | escape }}</button>
+    </div>
+    {% unless capabilities contains 'remove_branding' %}<div class="vqo-branding">Variant Quick Order</div>{% endunless %}
+
+    <script type="application/json" data-vqo-variants>
+      [
+      {% for variant in product.variants limit: initial_limit %}
+        {% assign app_rule = variant.metafields['$app'].quick_order_rule.value %}
+        {
+          "id": {{ variant.id | json }},
+          "gid": "gid://shopify/ProductVariant/{{ variant.id }}",
+          "title": {{ variant.title | json }},
+          "sku": {{ variant.sku | json }},
+          "barcode": {{ variant.barcode | json }},
+          "available": {{ variant.available | json }},
+          "inventoryQuantity": {{ variant.inventory_quantity | json }},
+          "price": {{ variant.price | json }},
+          "priceFormatted": {{ variant.price | money | json }},
+          "selectedOptions": [
+            {% for option in variant.options %}{"name": {{ product.options[forloop.index0] | json }}, "value": {{ option | json }}}{% unless forloop.last %},{% endunless %}{% endfor %}
+          ],
+          "shopifyRule": {
+            "minimum": {{ variant.quantity_rule.min | default: 1 | json }},
+            "maximum": {{ variant.quantity_rule.max | json }},
+            "increment": {{ variant.quantity_rule.increment | default: 1 | json }}
+          },
+          "priceBreaks": [
+            {% for price_break in variant.quantity_price_breaks %}{"minimumQuantity": {{ price_break.minimum_quantity | json }}, "priceFormatted": {{ price_break.price | money | json }}}{% unless forloop.last %},{% endunless %}{% endfor %}
+          ],
+          "appRule": {{ app_rule | json }},
+          "metafields": {
+            {% for column in settings.metafieldColumns %}
+              {% assign mf = variant.metafields[column.namespace][column.key] %}
+              {{ column.id | json }}: {% if mf %}{{ mf.value | json }}{% else %}null{% endif %}{% unless forloop.last %},{% endunless %}
+            {% endfor %}
+          },
+          "source": "liquid"
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+      ]
+    </script>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Variant quick order",
+  "target": "section",
+  "stylesheet": "variant-quick-order.css",
+  "javascript": "variant-quick-order.js",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Configure columns, labels, sorting, mobile layout and quantity defaults in the Variant Quick Order app. Product-specific enablement is managed from the product Admin app block."
+    },
+    {
+      "type": "text",
+      "id": "proxy_path",
+      "label": "App proxy path",
+      "default": "/apps/variant-quick-order",
+      "info": "Only change this if the store customized the app proxy URL under Shopify app settings."
+    }
+  ]
+}
+{% endschema %}

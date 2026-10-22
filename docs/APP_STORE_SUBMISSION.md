@@ -16,6 +16,7 @@ Before submission, confirm trademark/name availability and align the production 
 `Turn variant-heavy product pages into a fast order table. Buyers enter quantities across sizes, colors, packs or SKUs and add all selected variants to cart at once. Configure columns, labels, sorting, mobile layout and quantity rules from Shopify Admin.`
 
 **Key benefits:**
+
 1. `Let buyers order many variants without opening each option combination`
 2. `Add selected variants to cart in one action`
 3. `Show SKU, price, stock and configurable variant details`
@@ -33,6 +34,7 @@ Online Store: required. POS: not required.
 Use Shopify App Pricing only; do not claim approval for outside billing.
 
 ### Free
+
 - Up to 3 configured products
 - Up to 50 variants per product
 - Multi-variant add-to-cart table
@@ -40,7 +42,9 @@ Use Shopify App Pricing only; do not claim approval for outside billing.
 - Compact mobile layout
 
 ### Starter
+
 Recommended: `$7.99/month or $79/year`, `7-day trial`
+
 - Unlimited configured products
 - Up to 250 variants per product
 - Custom labels and sorting
@@ -48,7 +52,9 @@ Recommended: `$7.99/month or $79/year`, `7-day trial`
 - Global fallback min/max/increment/case-pack rules
 
 ### Pro
+
 Recommended: `$14.99/month or $149/year`, `7-day trial`
+
 - Up to 2,048 variants per product
 - CSV / spreadsheet paste by SKU, barcode or variant ID
 - Search and B2B visibility controls
@@ -68,6 +74,7 @@ Source: `marketing/icons/variant-quick-order.svg`.
 ## Feature media / banners
 
 HTML source files are under `marketing/banners/` and are designed at 1600×900:
+
 1. `01-hero.html` — storefront table + multi-line cart action
 2. `02-configure.html` — merchant columns/labels/layout configuration
 3. `03-csv-pro.html` — Pro spreadsheet/SKU paste workflow
@@ -107,6 +114,7 @@ No reviewer customer account is required for normal functionality. B2B-only visi
 ## Data access explanation
 
 Requested scopes:
+
 - `read_products`: read product/variant data and counts needed for configuration.
 - `write_products`: write app-owned product/variant metafield configuration through Admin UI extensions.
 - `write_app_proxy`: expose authenticated high-variant paging under the Online Store proxy route.

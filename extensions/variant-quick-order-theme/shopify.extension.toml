@@ -1,0 +1,6 @@
+api_version = "2026-04"
+[[extensions]]
+name = "Variant Quick Order"
+handle = "variant-quick-order-theme"
+uid = "f22446bd-c916-21f3-43fe-3d428f741861d34535e6"
+type = "theme"

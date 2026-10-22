@@ -7,14 +7,27 @@ services:
       POSTGRES_USER: ${POSTGRES_SUPERUSER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_SUPERUSER_PASSWORD}
       POSTGRES_DB: postgres
-    volumes: [shopify-platform-postgres:/var/lib/postgresql/data]
-    networks: [shopify-platform]
+    volumes:
+      - shopify-platform-postgres:/var/lib/postgresql
+    networks:
+      - shopify-platform
   shopify-redis:
     image: redis:8-alpine
     restart: unless-stopped
-    command: ["redis-server", "--appendonly", "yes", "--maxmemory-policy", "noeviction", "--requirepass", "${REDIS_PASSWORD}"]
-    volumes: [shopify-platform-redis:/data]
-    networks: [shopify-platform]
+    command:
+      [
+        "redis-server",
+        "--appendonly",
+        "yes",
+        "--maxmemory-policy",
+        "noeviction",
+        "--requirepass",
+        "${REDIS_PASSWORD}",
+      ]
+    volumes:
+      - shopify-platform-redis:/data
+    networks:
+      - shopify-platform
 volumes:
   shopify-platform-postgres:
   shopify-platform-redis:

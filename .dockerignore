@@ -1,3 +1,12 @@
 .cache
 build
 node_modules
+.git
+.github
+.shopify
+.env
+.env.*
+!.env*.example
+dist
+extensions/*/dist
+*.log

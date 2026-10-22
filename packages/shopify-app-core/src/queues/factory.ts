@@ -66,7 +66,6 @@ export function createAppWorker(params: {
     limiter: params.limiter,
   });
 
-
   worker.on("failed", (job, error) => {
     console.error(`[BullMQ:${params.name}] ${job?.id} failed`, error);
   });

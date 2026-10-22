@@ -64,18 +64,23 @@ export function normalizeOrderQuantity(quantity: unknown, ruleValue: unknown): n
 
 export function validateOrderQuantity(quantity: unknown, ruleValue: unknown): string | null {
   const quantityValue = Number(quantity);
-  if (!Number.isInteger(quantityValue) || quantityValue < 0) return "Enter a whole-number quantity.";
+  if (!Number.isInteger(quantityValue) || quantityValue < 0)
+    return "Enter a whole-number quantity.";
   if (quantityValue === 0) return null;
   const rule = normalizeQuantityRule(ruleValue);
   if (quantityValue < rule.minimum) return `Minimum quantity is ${rule.minimum}.`;
-  if (rule.maximum !== null && quantityValue > rule.maximum) return `Maximum quantity is ${rule.maximum}.`;
-  if (quantityValue % rule.increment !== 0) return `Quantity must be in increments of ${rule.increment}.`;
+  if (rule.maximum !== null && quantityValue > rule.maximum)
+    return `Maximum quantity is ${rule.maximum}.`;
+  if (quantityValue % rule.increment !== 0)
+    return `Quantity must be in increments of ${rule.increment}.`;
   return null;
 }
 
 function hasMeaningfulRule(value: unknown): boolean {
   const source = asRecord(value);
-  return ["minimum", "maximum", "increment", "casePack"].some((key) => source[key] !== undefined && source[key] !== null && source[key] !== "");
+  return ["minimum", "maximum", "increment", "casePack"].some(
+    (key) => source[key] !== undefined && source[key] !== null && source[key] !== "",
+  );
 }
 function positiveInt(value: unknown, fallback: number): number {
   const number = Number(value);
@@ -87,5 +92,7 @@ function nullablePositiveInt(value: unknown): number | null {
   return Number.isInteger(number) && number > 0 ? number : null;
 }
 function asRecord(value: unknown): Record<string, unknown> {
-  return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : {};
+  return value && typeof value === "object" && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : {};
 }
