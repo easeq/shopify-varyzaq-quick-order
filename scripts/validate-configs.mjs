@@ -1,9 +1,13 @@
 import { readFile, readdir } from "node:fs/promises";
-const environments = ["development", "staging", "production"];
+const configNames = [
+  "varyzaq-quick-order-dev",
+  "varyzaq-quick-order-staging",
+  "varyzaq-quick-order",
+];
 const rootFiles = await readdir(new URL("../", import.meta.url));
 let failed = false;
-for (const environment of environments) {
-  const name = `shopify.app.variant-quick-order-${environment}.toml`;
+for (const configName of configNames) {
+  const name = `shopify.app.${configName}.toml`;
   if (!rootFiles.includes(name)) {
     console.error(`Missing ${name}`);
     failed = true;

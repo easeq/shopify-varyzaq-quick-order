@@ -1,7 +1,7 @@
-# Link this file to the dedicated development app with:
-#   shopify app config link --config variant-quick-order-development
+# Link this file to its dedicated Shopify app with:
+#   shopify app config link --config varyzaq-quick-order-staging
 client_id = "REPLACE_WITH_STAGING_CLIENT_ID"
-name = "Variant Quick Order (Staging)"
+name = "Varyzaq Quick Order (Staging)"
 application_url = "https://varyzaq-quick-order-staging.zerqith.com"
 embedded = true
 handle = "varyzaq-quick-order-staging"

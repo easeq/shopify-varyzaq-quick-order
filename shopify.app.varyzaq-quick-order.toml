@@ -36,9 +36,9 @@ topics = ["app/scopes_update"]
 uri = "/webhooks/app/scopes_update"
 
 [app_proxy]
-url = "/apps/varyzaq-quick-order-api"
+url = "/apps/variant-quick-order"
 prefix = "apps"
-subpath = "varyzaq-quick-order"
+subpath = "variant-quick-order"
 
 [product.metafields.app.quick_order_config]
 name = "Variant Quick Order configuration"

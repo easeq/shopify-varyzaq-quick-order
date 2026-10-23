@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1 — 2026-10-23
+
+- Added `sample.env` (mirrors the MezuraWise Flooring layout; worker/billing vars trimmed to what this app reads).
+- Restyled marketing assets to the shared Zerqith style: new framed app icon, six banners plus featured media, gallery with in-browser PNG export.
+- `package.json` now follows the Flooring Calculator layout, matches `pnpm-lock.yaml` again, and drops unused scripts.
+- Fixed Shopify config names, app-proxy subpath/url, missing Prisma migration, stale tests and README/docs references.
+
 ## 0.1.0 — 2026-09-17
 
 - Added the production-ready Variant Quick Order / Bulk Add Table Shopify app.

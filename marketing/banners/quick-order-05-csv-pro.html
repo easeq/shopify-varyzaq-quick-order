@@ -1,0 +1,76 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Variant Quick Order — CSV paste</title><style>
+*{box-sizing:border-box}html,body{margin:0;background:#dfe6dc;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.canvas{width:1600px;height:900px;position:relative;overflow:hidden}
+.pill{display:inline-flex;gap:12px;align-items:center;padding:10px 18px;border-radius:999px;font-weight:700;font-size:21px;letter-spacing:.02em}
+.dot{width:10px;height:10px;border-radius:50%;background:#c2f970;box-shadow:0 0 0 4px #c2f97040}
+h1{letter-spacing:-.05em;font-weight:800}h1 em{font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;font-style:italic;font-weight:500;letter-spacing:-.03em}
+.mark{width:48px;height:48px;flex:none}.mark svg{width:48px;height:48px;display:block}
+.chip{display:flex;padding:8px 11px;border-radius:12px;background:#102a2c}.footer{position:absolute;left:110px;bottom:78px;display:flex;align-items:center;gap:22px;font-size:20px;font-weight:700}
+.line{width:120px;height:1px}
+.word{font-weight:800;font-size:24px;letter-spacing:-.03em}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:999px;font-weight:800;font-size:20px}
+
+.canvas{padding:80px 110px}
+.top{display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:16px;font-size:25px;font-weight:800;letter-spacing:-.02em}
+.brand svg{width:56px;height:56px}
+.footer{left:110px;right:110px;font-size:18px;gap:18px}.footer .r{margin-left:auto;font-weight:800}.line{width:60px}
+.card{border-radius:30px}.logo{display:block;flex:none}
+
+.canvas{background:radial-gradient(circle at 86% 10%,#e3fbb4 0,transparent 30%),linear-gradient(135deg,#f9faf5 0%,#f0f5ee 58%,#e6f1e4 100%);color:#102a2c}
+.pill{background:#ffffffb0;border:1px solid #c9d8c8;color:#102a2c;font-size:18px}.pill .dot{background:#6fae12;box-shadow:0 0 0 4px #6fae1228}
+h1 em{color:#3f7a00}.lead{color:#4d6462}.muted{color:#6b7f7c}
+.card{background:#fff;border:1px solid #dbe5d9;box-shadow:0 30px 80px #102a2c1c}
+.footer{color:#102a2c}.line{background:#bccbba}.word{color:#102a2c}.word i{font-style:normal;color:#5f9a00}.footer .r{color:#3f7a00}
+.pill.pro{background:#102a2c;color:#c2f970;border-color:#102a2c}
+
+.copy{position:absolute;left:110px;top:200px;width:590px}h1{font-size:66px;line-height:1.02;margin:26px 0 24px}.lead{font-size:26px;line-height:1.46;margin:0}
+.flow{position:absolute;right:96px;top:176px;width:780px;height:400px}
+.paste{position:absolute;left:0;top:20px;width:340px;padding:30px}.paste small,.res small{font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#6b7f7c}
+.paste .t{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.ln{margin-top:10px;padding:13px 15px;border-radius:13px;background:#f3f7f0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:16px;color:#102a2c}
+.apply{margin-top:18px;display:inline-block;padding:12px 20px;border-radius:999px;background:#102a2c;color:#c2f970;font-weight:800;font-size:16px}
+.arrow{position:absolute;left:355px;top:190px;width:70px}
+.res{position:absolute;right:0;top:0;width:340px;padding:30px}.res .t{font-size:24px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px}
+.rr{display:grid;grid-template-columns:1.1fr 1fr .5fr;gap:8px;align-items:center;margin-top:10px;padding:13px 15px;border-radius:13px;background:#f3f7f0;font-size:15px}
+.rr .s{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;color:#4d6462}.rr b{text-align:right;background:#e8f3d4;border-radius:8px;padding:5px 0;text-align:center}
+.stats{position:absolute;left:110px;right:110px;bottom:168px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.stat{padding:22px 28px;display:flex;align-items:baseline;gap:14px}.stat b{font-size:34px;white-space:nowrap;letter-spacing:-.05em}.stat span{font-size:18px;color:#4d6462;font-weight:600}
+
+</style></head><body><main class="canvas"><div class="top"><div class="brand"><svg viewBox="0 0 128 128" width="56" height="56" aria-hidden="true"><rect width="128" height="128" rx="24" fill="#f0f5ee"/><rect x="12" y="12" width="104" height="104" rx="24" fill="#102a2c"/><g transform="translate(32 32) scale(2.6666666666666665)" stroke="#c2f970" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/><path d="M9.2 10.8h9.6"/><path d="M9.8 13.4h7.6"/></g></svg><span>Variant Quick Order</span></div><div class="pill"><span class="dot"></span>CSV / spreadsheet paste</div></div><section class="copy"><div class="pill pro"><span class="dot"></span>Pro</div><h1>Paste once.<br><em>Fill the table.</em></h1><p class="lead">Accept SKU, barcode or variant ID with quantities from CSV or spreadsheet rows — validated by the same quantity rules as manual entry.</p></section>
+<section class="flow"><div class="card paste"><small>Spreadsheet rows</small><div class="t">Purchase list</div><div class="ln">TEE-BLK-S, 12</div><div class="ln">TEE-BLK-M, 24</div><div class="ln">TEE-OLV-M, 12</div><span class="apply">Apply quantities</span></div>
+<svg class="arrow" viewBox="0 0 70 30"><path d="M4 15h56M48 5l12 10-12 10" fill="none" stroke="#102a2c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<div class="card res"><small>Order table</small><div class="t">Quantities filled</div><div class="rr"><span class="s">TEE-BLK-S</span><span>Black / S</span><b>12</b></div><div class="rr"><span class="s">TEE-BLK-M</span><span>Black / M</span><b>24</b></div><div class="rr"><span class="s">TEE-OLV-M</span><span>Olive / M</span><b>12</b></div></div></section>
+<section class="stats"><div class="card stat"><b>CSV / Excel</b><span>from a sheet</span></div><div class="card stat"><b>SKU + barcode</b><span>or ID</span></div><div class="card stat"><b>One request</b><span>to cart</span></div></section>
+<div class="footer"><svg class="logo" viewBox="96 118 320 276" width="48.7" height="42" role="img" aria-label="Zerqith"><defs><clipPath id="ri5"><rect width="346" height="512"/></clipPath><clipPath id="ro5"><rect x="346" width="166" height="512"/></clipPath></defs><path d="M102 124H410V202L240 310H346V388H102V310L272 202H102Z" fill="#c2f970"/><path d="M170 164H342V195L225 275H286L170 348V316L288 236H226L342 164Z" fill="#102a2c"/><path d="M346 314H406V384H346" fill="#102a2c" stroke="#c2f970" stroke-width="8"/><g clip-path="url(#ri5)"><path d="M298 349C298 324 319 324 346 349C373 374 394 374 394 349C394 324 373 324 346 349C319 374 298 374 298 349" fill="none" stroke="#102a2c" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g><g clip-path="url(#ro5)"><path d="M298 349C298 324 319 324 346 349C373 374 394 374 394 349C394 324 373 324 346 349C319 374 298 374 298 349" fill="none" stroke="#c2f970" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/></g></svg><span class="word">zerqith<i>.</i>com</span><div class="line"></div><span>Paste • Validate • Add to cart</span><span class="r">Small tools. Meaningful differences.</span></div></main><div class="mw-bar"><button id="mw-dl" type="button">Download as PNG (1600×900)</button><a href="../index.html">All assets</a><span id="mw-msg" aria-live="polite"></span></div>
+<style class="mw">.mw-bar{width:1600px;max-width:100%;box-sizing:border-box;padding:14px 4px;display:flex;align-items:center;gap:16px;font:600 15px system-ui,sans-serif;color:#102a2c}.mw-bar button{cursor:pointer;border:0;border-radius:999px;padding:11px 20px;background:#102a2c;color:#c2f970;font:700 15px system-ui,sans-serif}.mw-bar a{color:#3f7a00}@media print{.mw-bar{display:none}}</style>
+<script>
+(function(){
+var W=1600,H=900,name=(location.pathname.split('/').pop()||'banner').replace(/\.html?$/,'');
+var msg=function(t){var m=document.getElementById('mw-msg');if(m)m.textContent=t||''};
+function svgSource(){
+  var node=document.querySelector('.canvas').cloneNode(true);
+  var css=Array.prototype.map.call(document.querySelectorAll('style:not(.mw)'),function(s){return s.textContent}).join('\n');
+  var font=getComputedStyle(document.body).fontFamily.replace(/"/g,"'");
+  var xml=new XMLSerializer().serializeToString(node);
+  return '<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'"><foreignObject width="'+W+'" height="'+H+'"><div xmlns="http://www.w3.org/1999/xhtml" style="width:'+W+'px;height:'+H+'px;font-family:'+font+'"><style><![CDATA['+css+']]></style>'+xml+'</div></foreignObject></svg>';
+}
+function download(){
+  msg('Generating…');
+  var img=new Image();
+  img.onload=function(){
+    try{
+      var c=document.createElement('canvas');c.width=W;c.height=H;
+      c.getContext('2d').drawImage(img,0,0);
+      c.toBlob(function(b){
+        if(!b){msg('Export is not supported in this browser.');return}
+        var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name+'.png';
+        document.body.appendChild(a);a.click();a.remove();msg('Saved '+name+'.png');
+      },'image/png');
+    }catch(e){msg('Export is not supported in this browser.')}
+  };
+  img.onerror=function(){msg('Could not generate the image.')};
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svgSource());
+}
+var b=document.getElementById('mw-dl');if(b)b.addEventListener('click',download);
+window.addEventListener('message',function(e){if(e.data==='mw-download')download()});
+})();
+</script></body></html>

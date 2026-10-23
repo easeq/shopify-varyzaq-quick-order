@@ -1,19 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
   <title id="title">Variant Quick Order icon</title>
-  <desc id="desc">A flat variant grid flowing into a cart tray.</desc>
-  <rect width="1200" height="1200" rx="240" fill="#15202B"/>
-  <rect x="220" y="230" width="760" height="520" rx="56" fill="#FFFFFF"/>
-  <rect x="286" y="302" width="235" height="82" rx="22" fill="#DFF3EA"/>
-  <rect x="550" y="302" width="160" height="82" rx="22" fill="#E9EDF1"/>
-  <rect x="738" y="302" width="176" height="82" rx="22" fill="#C8E6DA"/>
-  <rect x="286" y="414" width="235" height="82" rx="22" fill="#E9EDF1"/>
-  <rect x="550" y="414" width="160" height="82" rx="22" fill="#DFF3EA"/>
-  <rect x="738" y="414" width="176" height="82" rx="22" fill="#E9EDF1"/>
-  <rect x="286" y="526" width="235" height="82" rx="22" fill="#DFF3EA"/>
-  <rect x="550" y="526" width="160" height="82" rx="22" fill="#E9EDF1"/>
-  <rect x="738" y="526" width="176" height="82" rx="22" fill="#C8E6DA"/>
-  <path d="M385 843h365l43-116h95l-76 206H420z" fill="#46B98B"/>
-  <circle cx="485" cy="971" r="46" fill="#FFFFFF"/>
-  <circle cx="753" cy="971" r="46" fill="#FFFFFF"/>
-  <path d="M600 676v180m-75-88 75 88 75-88" fill="none" stroke="#46B98B" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+  <desc id="desc">A shopping cart holding rows of variants. Zerqith framed style.</desc>
+  <rect width="128" height="128" rx="24" fill="#f0f5ee"/>
+  <rect x="12" y="12" width="104" height="104" rx="24" fill="#102a2c"/>
+  <g transform="translate(32 32) scale(2.6666666666666665)" stroke="#c2f970" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/><path d="M9.2 10.8h9.6"/><path d="M9.8 13.4h7.6"/>
+  </g>
 </svg>

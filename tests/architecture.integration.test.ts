@@ -9,7 +9,9 @@ test("reuses shared Shopify core instead of duplicating billing and queue infras
   const queue = await read("app/queues/queue.server.ts");
   const packageJson = JSON.parse(await read("package.json"));
   assert.match(billing, /@app-platform\/shopify-core/);
-  assert.match(queue, /buildQueueName, createAppQueue, getRuntimeIdentity/);
+  for (const name of ["buildQueueName", "createAppQueue", "getRuntimeIdentity"])
+    assert.match(queue, new RegExp(`\\b${name}\\b`));
+  assert.match(queue, /from "@app-platform\/shopify-core"/);
   assert.equal(packageJson.dependencies["@app-platform/shopify-core"], "workspace:*");
   assert.equal(
     packageJson.dependencies["@app-platform/shopify-admin-extension-core"],

@@ -10,3 +10,13 @@ node_modules
 dist
 extensions/*/dist
 *.log
+.react-router
+docs
+marketing
+tests
+**/*.test.ts
+**/*.integration.test.ts
+prisma/dev.sqlite
+prisma/dev.sqlite-journal
+docker-compose*.yaml
+*.zip

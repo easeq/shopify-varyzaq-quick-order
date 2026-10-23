@@ -51,24 +51,25 @@ Requirements: Node 24, pnpm 12, Docker, Shopify CLI, a development Shopify app/s
 ```bash
 corepack enable
 pnpm install
-cp .env.variant-quick-order.development.example .env.variant-quick-order.development
+cp sample.env .env   # then replace the vault placeholders with real values
 pnpm infra:up
 pnpm db:setup
 ```
 
-Link the dedicated development Shopify app to `shopify.app.variant-quick-order-development.toml`, then replace its placeholder client ID. Run:
+Link the dedicated development Shopify app to `shopify.app.varyzaq-quick-order-dev.toml` (`pnpm config:link`), then run:
 
 ```bash
 pnpm dev
 ```
 
-To run the BullMQ worker alongside Shopify CLI:
+To run the BullMQ worker in Docker alongside Shopify CLI:
 
 ```bash
-pnpm dev:with-worker
+pnpm worker:up
+pnpm worker:logs
 ```
 
-The local database must be exactly `variant_quick_order_development`; staging and production use `variant_quick_order_staging` and `variant_quick_order_production`. The runtime boundary check rejects accidental cross-environment database use.
+The local Docker database is `variant_quick_order_development`; use separate databases for staging and production (`variant_quick_order_staging`, `variant_quick_order_production`).
 
 ## Merchant setup
 
@@ -84,16 +85,15 @@ The local database must be exactly `variant_quick_order_development`; staging an
 
 The repository includes three isolated Shopify config files following the platform convention:
 
-- `shopify.app.variant-quick-order-development.toml`
-- `shopify.app.variant-quick-order-staging.toml`
-- `shopify.app.variant-quick-order-production.toml`
+- `shopify.app.varyzaq-quick-order-dev.toml`
+- `shopify.app.varyzaq-quick-order-staging.toml`
+- `shopify.app.varyzaq-quick-order.toml` (production)
 
 Each environment must have its own Shopify app identity, secrets, app URL, webhooks, PostgreSQL database and Redis namespace/runtime identity. Deploy only after linking each config to the matching app.
 
 ```bash
-pnpm deploy:development
-APP_ENV=staging pnpm deploy:staging
-ALLOW_PRODUCTION_DEPLOY=yes APP_ENV=production pnpm deploy:production
+pnpm deploy:staging
+pnpm deploy:production
 ```
 
 `docker-compose.dokploy.example.yaml` preserves the Material Calculator pattern of sharing low-resource Postgres/Redis infrastructure while keeping app/environment data and BullMQ queue names isolated.
@@ -105,7 +105,8 @@ pnpm lint:configs
 pnpm test:all
 pnpm typecheck
 pnpm build
-pnpm marketing:typecheck
+# or all at once:
+pnpm check
 ```
 
 See `docs/` for architecture, API/cost behavior, competitor research, App Store submission copy, review instructions and launch/media checklists.

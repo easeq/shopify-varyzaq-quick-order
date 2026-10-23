@@ -5,3 +5,8 @@ node_modules
 prisma
 public
 .shopify
+
+# generated, self-contained marketing pages (minified like the MezuraWise apps)
+marketing/banners
+marketing/featured
+marketing/index.html

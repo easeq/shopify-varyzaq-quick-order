@@ -73,12 +73,14 @@ Source: `marketing/icons/variant-quick-order.svg`.
 
 ## Feature media / banners
 
-HTML source files are under `marketing/banners/` and are designed at 1600×900:
+HTML source files are under `marketing/banners/` and are designed at 1600×900 (plus `marketing/featured/quick-order-featured-media.html` for the listing's featured media):
 
-1. `01-hero.html` — storefront table + multi-line cart action
-2. `02-configure.html` — merchant columns/labels/layout configuration
-3. `03-csv-pro.html` — Pro spreadsheet/SKU paste workflow
-4. `04-high-variants.html` — Pro high-variant paging + B2B-oriented safeguards
+1. `quick-order-01-hero.html` — storefront table + multi-line cart action
+2. `quick-order-02-how-it-works.html` — four-step buyer flow
+3. `quick-order-03-merchant-setup.html` — merchant columns/labels/layout configuration
+4. `quick-order-04-storefront-features.html` — storefront feature overview
+5. `quick-order-05-csv-pro.html` — Pro spreadsheet/SKU paste workflow
+6. `quick-order-06-high-variants.html` — Pro high-variant paging + B2B-oriented safeguards
 
 Export browser captures at exactly 1600×900 before upload. Do not include browser chrome or real merchant/customer data.
 
